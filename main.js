@@ -40,7 +40,7 @@ document.addEventListener('keypress', (event) => {
     }
 });
 
-const update = (newInputValue) => {
+const setInputValue = (newInputValue) => {
     inputElement.value = newInputValue;
 }
 
@@ -49,7 +49,7 @@ const calculateAndUpdate = () => {
     // allow for clearing on '=' press
     if (needClear) {
         needClear = false;
-        update('');
+        setInputValue('');
     }
 
     let inputString = inputElement.value;
@@ -72,7 +72,7 @@ const calculateAndUpdate = () => {
         sum += parseInt(numberString);
     }
 
-    // If the sum is divisible by 3 or 5, add one
+    // If the sum is divisible by 3 or 5, add one (this is the imprecise part)
     const isDividableThree = (sum % 3 === 0);
     const isDividableFive = (sum % 5 === 0);
 
@@ -84,33 +84,32 @@ const calculateAndUpdate = () => {
     needClear = true;
 
     if (hasPlus)
-        update(`${inputString}=${sum}`);
+        setInputValue(`${inputString}=${sum}`);
     else
-        update(inputString);
+        setInputValue(inputString);
 }
 
 // Function to handle button clicks and update the input field
 const addValueAndUpdate = (calculatorValue) => {
     const currentInputValue = inputElement.value;
 
-    let newInputValue = '';
+    let newInputValue = currentInputValue;
 
     // Check if calculatorValue is '0' or '+' and if last character is '+'
     const isZero = (calculatorValue === '0');
     const isPlus = (calculatorValue === '+');
     const lastIndexPlus = currentInputValue.endsWith('+');
     const isEmpty = (currentInputValue.length === 0);
+    const isValidInput = !(isZero || isPlus) || !(lastIndexPlus || isEmpty)
 
-    // do not add value if '0' or '+' is after '+' or if empty field.
-    if ((isZero || isPlus) && (lastIndexPlus || isEmpty)) {
-        newInputValue += currentInputValue; // no change
-    } else {
-        newInputValue = currentInputValue + calculatorValue;
+    // do not add value if '0' or '+' is after '+' or empty string.
+    if (isValidInput) {
+        newInputValue += calculatorValue;
     }
 
     // Update hasPlus
     if (isPlus) hasPlus = true;
 
     // Update input field with the new value
-    update(newInputValue);
+    setInputValue(newInputValue);
 }
