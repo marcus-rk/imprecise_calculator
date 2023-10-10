@@ -13,11 +13,10 @@ let needClear = false;
 let hasPlus = false;
 
 // Add click event listeners to all buttons
-allButtons.forEach((button,index) => {
+allButtons.forEach((button) => {
     const calculatorValue = button.innerText;
     // If the button represents a number (0-9) or '+', add a click event listener
     if (NUMBER_REGEX.test(calculatorValue) || calculatorValue === '+') {
-
         button.addEventListener('click', () => {
             addValueAndUpdate(calculatorValue);
         });
