@@ -82,7 +82,7 @@ const calculateAndUpdate = () => {
     // otherwise inputString stay the same
     needClear = true;
 
-    if (hasPlus)
+    if (hasPlus && inputStringArray.length>1)
         setInputValue(`${inputString}=${sum}`);
     else
         setInputValue(inputString);
