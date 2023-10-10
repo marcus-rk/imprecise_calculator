@@ -14,19 +14,30 @@ let hasPlus = false;
 
 // Add click event listeners to all buttons
 allButtons.forEach((button,index) => {
-    button.addEventListener('click', () => {
-        const calculatorValue = button.innerText;
-        addValue(calculatorValue)
-    })
+    const calculatorValue = button.innerText;
+    // If the button represents a number (0-9) or '+', add a click event listener
+    if (NUMBER_REGEX.test(calculatorValue) || calculatorValue === '+') {
+        button.addEventListener('click', () => {
+            addValue(calculatorValue);
+        });
+    } else {
+        // operator '='
+        button.addEventListener('click', () => {
+            calculateAndUpdate();
+        });
+    }
 });
 
+
 // Function to calculate the result of the input string
-const calculate = (inputString) => {
+const calculateAndUpdate = () => {
     // allow for clearing on '=' press
     if (needClear) {
         needClear = false;
-        return '';
+        inputElement.value = '';
     }
+
+    let inputString = inputElement.value;
 
     // if no input string, don't show '=' and return empty string
     if (inputString.length === 0)
@@ -56,7 +67,7 @@ const calculate = (inputString) => {
     // Return the result if there are at least two numbers,
     // otherwise return the input string
     needClear = true;
-    return hasPlus ? `${inputString}=${sum}` : inputString;
+    inputElement.value = hasPlus ? `${inputString}=${sum}` : inputString;
 }
 
 // Function to handle button clicks and update the input field
@@ -64,29 +75,27 @@ const addValue = (calculatorValue) => {
     const currentInputValue = inputElement.value;
     const lastIndex = currentInputValue.length - 1;
     const lastIndexValue = currentInputValue[lastIndex];
-    const isNumber = NUMBER_REGEX.test(calculatorValue);
 
     let newInputValue = '';
 
-    switch (true) {
-        case calculatorValue === '0':
-            if (lastIndexValue !== '+' && lastIndex !== -1)
+    switch (calculatorValue) {
+        case '0':
+            if (lastIndexValue !== '+' && lastIndex !== -1) {
                 newInputValue = currentInputValue + calculatorValue;
-            else
+            } else {
                 newInputValue = currentInputValue;
+            }
             break;
-        case isNumber:
-            newInputValue = currentInputValue + calculatorValue;
-            break;
-        case calculatorValue === '+':
+        case '+':
             hasPlus = true;
-            if (lastIndexValue !== '+' && lastIndex !== -1)
+            if (lastIndexValue !== '+' && lastIndex !== -1) {
                 newInputValue = currentInputValue + calculatorValue;
-            else
+            } else {
                 newInputValue = currentInputValue;
+            }
             break;
-        case calculatorValue === '=':
-            newInputValue = calculate(currentInputValue);
+        default:
+            newInputValue = currentInputValue + calculatorValue;
             break;
     }
 
