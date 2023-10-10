@@ -29,6 +29,7 @@ allButtons.forEach((button,index) => {
     }
 });
 
+// Add keypress event listeners to document
 document.addEventListener('keypress', (event) => {
     const keyValue = event.key;
 
