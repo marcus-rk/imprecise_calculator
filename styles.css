@@ -1,0 +1,77 @@
+/* @Marcus Rappenborg Kjærsgaard, Makj0005 */
+/* https://nicklasdean.gitbook.io/ita2023-1.-semester/web-technology/12-js-dom-2 */
+
+/*************** GLOBAL ***************/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, serif;
+
+    /* Color Palette */
+    --highlight-color: #a2bbcf;
+    --main-blue-color: #205b7a;
+    --medium-blue-color: #1d3849;
+    --dark-blue-color: #142f44;
+    --black-color: #000000;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
+    background: gainsboro;
+}
+
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50%;
+    width: 50%;
+    padding: 0.8rem;
+
+    border-radius: 1rem;
+    border: solid black 3px;
+    background: var(--highlight-color);
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: var(--black-color);
+}
+
+input {
+    border: solid black 3px;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.3rem;
+    width: 11.5rem;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 50rem;
+    list-style-type: none;
+    gap: 0.3rem;
+}
+
+button {
+    border: solid black 3px;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.15s;
+} button:hover {
+      transition: 0.15s;
+      background: var(--main-blue-color);
+      color: var(--highlight-color);
+  }
