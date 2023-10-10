@@ -17,6 +17,7 @@ allButtons.forEach((button,index) => {
     const calculatorValue = button.innerText;
     // If the button represents a number (0-9) or '+', add a click event listener
     if (NUMBER_REGEX.test(calculatorValue) || calculatorValue === '+') {
+
         button.addEventListener('click', () => {
             addValue(calculatorValue);
         });
@@ -25,6 +26,16 @@ allButtons.forEach((button,index) => {
         button.addEventListener('click', () => {
             calculateAndUpdate();
         });
+    }
+});
+
+document.addEventListener('keypress', (event) => {
+    const keyValue = event.key;
+
+    if (NUMBER_REGEX.test(keyValue) || keyValue === '+') {
+        addValue(keyValue);
+    } else if (keyValue === '=' || keyValue === 'Enter') {
+        calculateAndUpdate();
     }
 });
 
