@@ -19,7 +19,7 @@ allButtons.forEach((button,index) => {
     if (NUMBER_REGEX.test(calculatorValue) || calculatorValue === '+') {
 
         button.addEventListener('click', () => {
-            addValue(calculatorValue);
+            addValueAndUpdate(calculatorValue);
         });
     } else {
         // operator '='
@@ -34,26 +34,29 @@ document.addEventListener('keypress', (event) => {
     const keyValue = event.key;
 
     if (NUMBER_REGEX.test(keyValue) || keyValue === '+') {
-        addValue(keyValue);
+        addValueAndUpdate(keyValue);
     } else if (keyValue === '=' || keyValue === 'Enter') {
         calculateAndUpdate();
     }
 });
 
+const update = (newInputValue) => {
+    inputElement.value = newInputValue;
+}
 
 // Function to calculate the result of the input string
 const calculateAndUpdate = () => {
     // allow for clearing on '=' press
     if (needClear) {
         needClear = false;
-        inputElement.value = '';
+        update('');
     }
 
     let inputString = inputElement.value;
 
     // if no input string, don't show '=' and return empty string
     if (inputString.length === 0)
-        return '';
+        return;
 
     // remove '+' if last character
     if (inputString.endsWith('+')) {
@@ -79,11 +82,15 @@ const calculateAndUpdate = () => {
     // Return the result if there are at least two numbers,
     // otherwise inputString stay the same
     needClear = true;
-    inputElement.value = hasPlus ? `${inputString}=${sum}` : inputString;
+
+    if (hasPlus)
+        update(`${inputString}=${sum}`);
+    else
+        update(inputString);
 }
 
 // Function to handle button clicks and update the input field
-const addValue = (calculatorValue) => {
+const addValueAndUpdate = (calculatorValue) => {
     const currentInputValue = inputElement.value;
 
     let newInputValue = '';
@@ -105,5 +112,5 @@ const addValue = (calculatorValue) => {
     if (isPlus) hasPlus = true;
 
     // Update input field with the new value
-    inputElement.value = newInputValue;
+    update(newInputValue);
 }
