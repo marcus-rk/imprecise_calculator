@@ -77,7 +77,7 @@ const calculateAndUpdate = () => {
         sum += 1;
 
     // Return the result if there are at least two numbers,
-    // otherwise return the input string
+    // otherwise inputString stay the same
     needClear = true;
     inputElement.value = hasPlus ? `${inputString}=${sum}` : inputString;
 }
@@ -85,32 +85,25 @@ const calculateAndUpdate = () => {
 // Function to handle button clicks and update the input field
 const addValue = (calculatorValue) => {
     const currentInputValue = inputElement.value;
-    const lastIndex = currentInputValue.length - 1;
-    const lastIndexValue = currentInputValue[lastIndex];
 
     let newInputValue = '';
 
-    switch (calculatorValue) {
-        case '0':
-            if (lastIndexValue !== '+' && lastIndex !== -1) {
-                newInputValue = currentInputValue + calculatorValue;
-            } else {
-                newInputValue = currentInputValue;
-            }
-            break;
-        case '+':
-            hasPlus = true;
-            if (lastIndexValue !== '+' && lastIndex !== -1) {
-                newInputValue = currentInputValue + calculatorValue;
-            } else {
-                newInputValue = currentInputValue;
-            }
-            break;
-        default:
-            newInputValue = currentInputValue + calculatorValue;
-            break;
+    // Check if calculatorValue is '0' or '+' and if last character is '+'
+    const isZero = (calculatorValue === '0');
+    const isPlus = (calculatorValue === '+');
+    const lastIndexPlus = currentInputValue.endsWith('+');
+    const isEmpty = (currentInputValue.length === 0);
+
+    // do not add value if '0' or '+' is after '+' or if empty field.
+    if ((isZero || isPlus) && (lastIndexPlus || isEmpty)) {
+        newInputValue += currentInputValue; // no change
+    } else {
+        newInputValue = currentInputValue + calculatorValue;
     }
 
-    // Update the input field with the new value
+    // Update hasPlus
+    if (isPlus) hasPlus = true;
+
+    // Update input field with the new value
     inputElement.value = newInputValue;
 }
